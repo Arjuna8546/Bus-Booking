@@ -49,3 +49,14 @@ class Bus(models.Model):
 
     def __str__(self):
         return f"{self.bus_name} ({self.start_stop} ➝ {self.destination_stop})"
+    
+class UserSelectedStop(models.Model):
+    bus_id = models.ForeignKey('Bus', on_delete=models.CASCADE)  # Assuming a Bus model exists
+    start_stop = models.CharField(max_length=255)
+    end_stop = models.CharField(max_length=255)
+    distance = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)  # Auto-set timestamp when created
+    payment_status = models.BooleanField(default=False)  # True for paid, False for unpaid
+
+    def __str__(self):
+        return f"{self.start_stop} to {self.end_stop} ({self.distance} km)"

@@ -2,6 +2,7 @@
 import './App.css'
 import HomePage from './pages/HomePage'
 import Login from './pages/Login'
+import SelectRoute from './pages/SelectRoute'
 import SignUp from './pages/SignUp'
 import AddBusDetail from './pages/admin/AddBusDetail'
 import AdminHome from './pages/admin/AdminHome'
@@ -21,6 +22,7 @@ function App() {
       <Route path='/admin/login' element={<AdminLogin/>}></Route>
       <Route path='/admin' element={<AdminHome/>}></Route>
       <Route path='/add-bus' element={<AddBusDetail/>}></Route>
+      <Route path='/routes/:busId' element={<SelectRoute/>}></Route>
       </Routes>
     </Router>
     </>

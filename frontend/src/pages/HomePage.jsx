@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { getAllBus } from '../endpoints/API'
+import { getAllBus, routeSelect } from '../endpoints/API'
 import { Clock, MapPin, Bus } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
   const [allBus, setAllBus] = useState([])
+  const nav = useNavigate()
 
   useEffect(() => {
     const fetchAllBus = async () => {
       const res = await getAllBus()
       if (res) {
+        console.log(res)
         setAllBus(res)
       }
     }
     fetchAllBus()
   }, [])
+
+  const handleBusClick = async(busId)=>{
+
+    nav(`/routes/${busId}`);
+
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-950">
@@ -30,8 +39,9 @@ function HomePage() {
           {allBus.length > 0 ? (
             allBus.map((bus, index) => (
               <div
-                key={index}
+                key={bus.id}
                 className="group bg-gray-900/50 backdrop-blur-sm p-5 rounded-2xl border border-gray-800/50 hover:border-blue-500/50 hover:bg-gray-900/70 transition-all duration-300 ease-in-out transform hover:-translate-y-1"
+                onClick={()=>handleBusClick(bus.id)}
               >
                 {/* Bus Name */}
                 <h3 className="text-xl font-semibold mb-3 flex items-center text-blue-300 group-hover:text-blue-200 transition-colors">

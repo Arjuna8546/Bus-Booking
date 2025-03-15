@@ -9,6 +9,7 @@
  const BASE_URL = "http://127.0.0.1:8000/api/"
  const REGISTER_URL = `${BASE_URL}register/`
  const LOGIN_URL = `${BASE_URL}token/`
+ const ROUTE_SELECT_URL = `${BASE_URL}route/`
 
  export const register = async(formData) =>{
     try {
@@ -97,3 +98,36 @@
         return (error)
     }
  }
+
+ export const routeSelect = async(id)=>{
+    try{
+        const res = await axios.get(
+            ROUTE_SELECT_URL,
+            {
+                params: { id: id },
+                withCredentials:true
+            }
+        )
+        return res.data
+    }
+    catch(error){
+        return error
+    }
+ }
+
+ const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiYXJqdW5hY2hhbmRyYW52diIsImEiOiJjbTg5cHNpZ2MwMzdjMmxyMHNjcjRsMWJoIn0.OldnwVWzWiJ5ZdWr9-1Vwg";
+
+ export const getRoadDistance = async (start, end) => {
+    try {
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.longitude},${start.latitude};${end.longitude},${end.latitude}?access_token=${MAPBOX_ACCESS_TOKEN}&geometries=geojson`;
+  
+      const response = await axios.get(url);
+      const distanceInMeters = response.data.routes[0].distance; // Distance in meters
+      const distanceInKm = (distanceInMeters / 1000).toFixed(2); // Convert to km
+  
+      return distanceInKm;
+    } catch (error) {
+      console.error("Error fetching road distance:", error);
+      return null;
+    }
+  };
